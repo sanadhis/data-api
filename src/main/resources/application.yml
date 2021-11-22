@@ -1,0 +1,12 @@
+server.port: 8080
+springdoc.swagger-ui.path: /swagger-ui.html
+
+# Use postgresql in non-local environment
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.ddl-auto: create
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+    open-in-view: false
+  datasource:
+    platform: postgres

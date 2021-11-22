@@ -1,0 +1,16 @@
+services:
+  api:
+    image: sanadhis/data-api:${version}${changelist}
+    command: -Dspring.datasource.url=jdbc:postgresql://postgresql-db:5432/ -Dspring.datasource.username=postgres -Dspring.datasource.password=${POSTGRES_PASSWORD} /opt/app/sutandi/app.jar
+    ports:
+      - "8080:8080"
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    links:
+      - "db:postgresql-db"
+    depends_on:
+      - db
+  db:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"

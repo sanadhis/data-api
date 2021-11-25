@@ -35,15 +35,9 @@ jobs:
         run: make package version=${{ steps.bump_version.outputs.new_version }} changelist="" args="${MAVEN_ARGS}"
       - name: Publish docker
         run: make publish version=${{ steps.bump_version.outputs.new_version }} changelist="" args="${MAVEN_ARGS}"
-      - name: Tag the version
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          release_branches: master
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.tag_version.outputs.new_version }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+          tag: ${{ steps.bump_version.outputs.new_tag }}
+          name: Release ${{ steps.bump_version.outputs.new_tag }}
+          body: ${{ steps.bump_version.outputs.changelog }}

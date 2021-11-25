@@ -20,7 +20,7 @@ jobs:
           java-version: '11'
           distribution: 'zulu'
       - name: Bump the version
-        id: tag_version
+        id: bump_version
         uses: mathieudutour/github-tag-action@v5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -32,9 +32,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Package docker
-        run: make package version=${{ steps.tag_version.outputs.new_version }} changelist="" args="${MAVEN_ARGS}"
+        run: make package version=${{ steps.bump_version.outputs.new_version }} changelist="" args="${MAVEN_ARGS}"
       - name: Publish docker
-        run: make publish version=${{ steps.tag_version.outputs.new_version }} changelist="" args="${MAVEN_ARGS}"
+        run: make publish version=${{ steps.bump_version.outputs.new_version }} changelist="" args="${MAVEN_ARGS}"
       - name: Tag the version
         id: tag_version
         uses: mathieudutour/github-tag-action@v5

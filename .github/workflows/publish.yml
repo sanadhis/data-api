@@ -21,7 +21,7 @@ jobs:
           distribution: 'zulu'
       - name: Bump the version
         id: tag_version
-        uses: mathieudutour/github-tag-action@v6.0
+        uses: mathieudutour/github-tag-action@v5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
@@ -35,6 +35,12 @@ jobs:
         run: make package version=${{ steps.tag_version.outputs.new_version }} changelist="" args="${MAVEN_ARGS}"
       - name: Publish docker
         run: make publish version=${{ steps.tag_version.outputs.new_version }} changelist="" args="${MAVEN_ARGS}"
+      - name: Tag the version
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: master
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:

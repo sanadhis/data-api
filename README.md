@@ -62,7 +62,10 @@ For running the mocked environment, you just need to install:
 ## Run data-api's docker image + postgresql DB
 Finally, to run the mocked environment, you can do via:
 
-`make deploy version=1.0.0`
+```
+export POSTGRES_PASSWORD=example
+make deploy version=0.0.1 changelist=
+```
 
 Swagger will also be available on `http://localhost:8080/swagger-ui.html`
 
